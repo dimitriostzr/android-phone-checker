@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'">
+  <title>Phone Checker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="dragbar"></div>
+  <div class="shell">
+
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6a3 3 0 0 1 3 3v8.3c0 3.9-2.4 6.9-6 8.7-3.6-1.8-6-4.8-6-8.7V5a3 3 0 0 1 3-3z"/><path d="M10.4 5.2h3.2"/><path d="M9.3 11.7l1.9 1.9 3.6-4.2"/></svg></div>
+        <div>
+          <div class="brand-name">Phone Checker</div>
+          <div class="brand-sub">for Android</div>
+        </div>
+      </div>
+      <div id="conn" class="conn off"><span class="conn-dot"></span><span id="conn-text">No device</span><button id="conn-eject" class="conn-eject hidden" title="Disconnect this phone" aria-label="Disconnect this phone"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 5.5 18.5 14h-13z"/><rect x="5.5" y="16" width="13" height="2.6" rx="1.3"/></svg></button></div>
+      <nav>
+        <button class="navitem active" data-view="dashboard">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+          Dashboard</button>
+        <button class="navitem" data-view="device">
+          <svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2.5"/><line x1="10.5" y1="18.5" x2="13.5" y2="18.5"/></svg>
+          My device</button>
+        <button class="navitem" data-view="apps">
+          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>
+          Apps &amp; battery</button>
+        <button class="navitem" data-view="origins">
+          <svg viewBox="0 0 24 24"><path d="M12 3v11"/><polyline points="8 10 12 14 16 10"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+          Install origins</button>
+        <button class="navitem" data-view="perms">
+          <svg viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M10.8 12.2 20 3"/><path d="M15 8l3 3"/></svg>
+          Permissions</button>
+        <button class="navitem" data-view="advisor">
+          <svg viewBox="0 0 24 24"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="7" cy="17" r="2"/></svg>
+          Debloat advisor</button>
+        <button class="navitem" data-view="settings">
+          <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="6" rx="3"/><circle cx="7" cy="8" r="1.6"/><rect x="3" y="14" width="18" height="6" rx="3"/><circle cx="17" cy="17" r="1.6"/></svg>
+          Phone settings</button>
+        <button class="navitem" data-view="snapshots">
+          <svg viewBox="0 0 24 24"><path d="M5 3h11l3 3v15H5z"/><rect x="8" y="14" width="8" height="7"/><path d="M8 3v5h6V3"/></svg>
+          Save state</button>
+        <button class="navitem" data-view="history">
+          <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><polyline points="3 4 3 9 8 9"/><polyline points="12 7 12 12 16 14"/></svg>
+          History</button>
+        <button class="navitem" data-view="hardware">
+          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6" rx="1"/><line x1="9" y1="1.5" x2="9" y2="4"/><line x1="15" y1="1.5" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22.5"/><line x1="15" y1="20" x2="15" y2="22.5"/><line x1="1.5" y1="9" x2="4" y2="9"/><line x1="1.5" y1="15" x2="4" y2="15"/><line x1="20" y1="9" x2="22.5" y2="9"/><line x1="20" y1="15" x2="22.5" y2="15"/></svg>
+          Hardware</button>
+        <button class="navitem" data-view="console">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><polyline points="7 9 10 12 7 15"/><line x1="12" y1="15" x2="16" y2="15"/></svg>
+          Console</button>
+        <button class="navitem" data-view="terminal">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="8" y2="9"/><line x1="8" y1="9" x2="8" y2="20"/><polyline points="11 13 13 15 11 17"/></svg>
+          Terminal</button>
+        <button class="navitem" data-view="about">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><circle cx="12" cy="8" r="0.5"/></svg>
+          About</button>
+      </nav>
+      <div class="sidebar-foot">
+        <button id="open-appearance" class="sidefoot-btn" title="Theme and accent colour" aria-label="Appearance">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18c1.4 0 2-.8 2-1.7 0-1.5-1.4-1.6-1.4-2.8 0-.8.7-1.5 1.6-1.5H16a5 5 0 0 0 5-5c0-4-4-7-9-7z"/><circle cx="8.5" cy="9.5" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="15.5" cy="9.5" r="1"/></svg>
+          Appearance</button>
+        <a href="#" id="oss-link" class="sidefoot-link" title="Free software, MIT License, source on GitHub">Free &amp; open source · MIT</a>
+      </div>
+    </aside>
+
+    <main>
+      <div id="stale-banner" class="stale-banner hidden">
+        <b>The running app is older than the code on disk.</b>
+        Main-process files only load when the app starts, so a window reload leaves them behind.
+        Quit Phone Checker and start it again to pick up the change.
+      </div>
+      <!-- ============ DASHBOARD ============ -->
+      <section id="view-dashboard" class="view">
+        <div id="firstrun" class="firstrun hidden">
+          <div id="firstrun-steps" class="firstrun-steps"></div>
+          <button id="firstrun-dismiss" class="firstrun-x" aria-label="Hide these steps">&#215;</button>
+        </div>
+        <div class="hero panel">
+          <div class="hero-zone hz-status">
+            <div id="donut"></div>
+            <div class="donut-side">
+              <h2 id="hero-title">Ready to check</h2>
+              <p id="hero-sub" class="muted">Connect your phone and run the health checks.</p>
+              <button id="run-checks" class="primary">Run health checks</button>
+              <button id="hero-save-state" class="small" title="Save the phone's state now — before or after an update">Save state</button>
+              <div id="checks-status" class="muted small-note"></div>
+              <div id="hero-next" class="hero-next hidden"></div>
+            </div>
+          </div>
+          <div class="hero-zone hz-device">
+            <h3>Device</h3>
+            <div id="device-info" class="kv muted">No device connected.<br>Enable USB debugging and plug in.</div>
+            <div id="device-chips" class="chips-row"></div>
+          </div>
+          <div class="hero-zone hz-trend">
+            <h3>Issue trend</h3>
+            <div id="trend"></div>
+            <div class="legend">
+              <span><i class="lg flag"></i>flagged</span>
+              <span><i class="lg note"></i>review</span>
+              <span><i class="lg okb"></i>clear run</span>
+            </div>
+          </div>
+        </div>
+        <div id="adb-missing" class="banner hidden"></div>
+        <div id="cards-empty" class="empty">
+          <div class="empty-glyph"><svg viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/></svg></div>
+          <div>No checks run yet on this device.</div>
+          <div class="muted">Plug in your phone and hit <b>Run health checks</b>.</div>
+        </div>
+        <div id="cards-panel" class="panel cards-panel hidden">
+          <div class="cards-head">
+            <h3>Check results</h3>
+            <span id="cards-device" class="dev-tag hidden"></span>
+            <span id="cards-restored" class="chip caution hidden">from your last run</span>
+            <span id="cards-count" class="muted-inline"></span>
+            <button id="export-checks" class="small">Export</button>
+          </div>
+          <div class="dot-legend">
+            <span><i class="dot flag" aria-hidden="true">&#9873;</i>flagged</span>
+            <span><i class="dot note" aria-hidden="true">&#9680;</i>worth a look</span>
+            <span><i class="dot info" aria-hidden="true">i</i>information</span>
+            <span><i class="dot ok" aria-hidden="true">&#10003;</i>clear</span>
+            <span><i class="dot skip" aria-hidden="true">&#8856;</i>could not be read</span>
+          </div>
+          <div id="cards"></div>
+        </div>
+      </section>
+
+      <!-- ============ MY DEVICE ============ -->
+      <section id="view-device" class="view hidden">
+        <div class="viewhead">
+          <h2 class="grow">My device</h2>
+          <button id="export-device" class="small hidden">Export</button>
+          <button id="device-refresh" class="small">Refresh</button>
+        </div>
+        <div id="device-empty" class="empty">
+          <div class="empty-glyph"><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2.5"/><line x1="10.5" y1="18.5" x2="13.5" y2="18.5"/></svg></div>
+          <div id="device-empty-title">No device connected.</div>
+          <div class="muted" id="device-empty-sub">Enable USB debugging and plug in your phone.</div>
+        </div>
+        <div id="device-grid" class="dev-grid hidden"></div>
+      </section>
+
+      <!-- ============ ADVISOR ============ -->
+      <section id="view-advisor" class="view hidden">
+        <div class="viewhead">
+          <h2 class="grow">Debloat advisor <button class="info-tip" aria-label="How the advisor works" data-tip="Nothing changes without your explicit confirmation. Every entry explains what the package is — use Search web to research it yourself. Disabling is Android's standard user-level disable, reversible here or in History. Items marked keep can never be selected, and caution items always ask for a second confirmation. App names and trademarks belong to their respective owners and appear here only to identify what is installed on your device.">i</button></h2>
+          <button id="revert-all" class="small hidden">Undo all app changes</button>
+          <button id="select-recommended" class="small hidden">Select all recommended</button>
+          <button id="apply-disable" class="danger hidden">Disable selected…</button>
+        </div>
+        <div class="toolbar">
+          <button id="load-proposals" class="primary">Scan installed packages</button>
+          <input id="advisor-search" class="search" type="search" placeholder="Filter packages…">
+          <button id="export-advisor" class="small">Export</button>
+          <span id="advisor-status" class="muted"></span>
+        </div>
+        <div id="advisor-risk" class="risk-hint hidden"></div>
+        <div id="advisor-tabs" class="atabs hidden">
+          <button id="tab-unhandled" class="atab active">Unhandled <span class="count" id="count-unhandled">0</span></button>
+          <button id="tab-handled" class="atab">Handled <span class="count" id="count-handled">0</span></button>
+        </div>
+        <div id="advisor-empty" class="empty">
+          <div class="empty-glyph"><svg viewBox="0 0 24 24"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="7" cy="17" r="2"/></svg></div>
+          <div>Scan to see every known package on your phone.</div>
+          <div class="muted">Each one explained, tiered, and yours to decide on.</div>
+        </div>
+        <div id="proposals"></div>
+      </section>
+
+      <!-- ============ APPS ============ -->
+      <section id="view-apps" class="view hidden">
+        <div class="viewhead">
+          <h2 class="grow">Apps &amp; battery <button class="info-tip" aria-label="How this view works" data-tip="Every package installed on your phone. Select apps with the checkboxes to disable them in bulk or set their battery state — the same Restricted / Optimized / Unrestricted states as Android's battery settings. Both changes are reversible here: a disabled app carries an Enable button on its own row, selecting several offers Enable selected, Undo disables switches back everything this app turned off, and Undo battery changes restores the previous battery states. System apps and caution items always ask for a second confirmation.">i</button></h2>
+          <button id="apps-enable-all" class="small hidden">Undo disables</button>
+          <button id="apps-battery-revert" class="small hidden">Undo battery changes</button>
+          <button id="apps-battery-set" class="primary menu-btn hidden" aria-haspopup="menu" aria-expanded="false"><span class="mb-label">Set battery</span><span class="mb-caret"></span></button>
+          <button id="apps-enable" class="small hidden">Enable selected…</button>
+          <button id="apps-disable" class="danger hidden">Disable selected…</button>
+          <button id="export-apps" class="small hidden">Export</button>
+          <button id="apps-refresh" class="small">Refresh</button>
+        </div>
+        <div class="toolbar">
+          <div class="atabs">
+            <button class="atab active" data-f="all">All <span class="count" id="ac-all">0</span></button>
+            <button class="atab" data-f="user">User <span class="count" id="ac-user">0</span></button>
+            <button class="atab" data-f="system">System <span class="count" id="ac-system">0</span></button>
+            <button class="atab" data-f="disabled">Disabled <span class="count" id="ac-disabled">0</span></button>
+          </div>
+          <input id="apps-search" class="search" type="search" placeholder="Filter apps…">
+          <select id="apps-ns" class="mode-select" aria-label="Package namespace"><option value="">All namespaces</option></select>
+          <label class="check-label sel-all hidden" id="apps-selall-wrap" title="Select or clear every app currently listed">
+            <input type="checkbox" id="apps-selall"> <span id="apps-selall-label">select all listed</span></label>
+          <button id="apps-clear-sel" class="small hidden">Clear selection</button>
+          <span id="apps-status" class="muted"></span>
+        </div>
+        <div id="apps-risk" class="risk-hint hidden"></div>
+        <div id="apps-stuck" class="risk-hint hidden"></div>
+        <div id="apps-empty" class="empty">
+          <div class="empty-glyph"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg></div>
+          <div>Every package installed on your phone, listed and searchable.</div>
+          <div class="muted">Connect a phone to load the list.</div>
+        </div>
+        <div id="apps-rows"></div>
+      </section>
+
+      <!-- ============ HARDWARE ============ -->
+      <section id="view-hardware" class="view hidden">
+        <div class="viewhead">
+          <h2 class="grow">Hardware <button class="info-tip" aria-label="What this view shows" data-tip="What the phone is made of and what it is doing right now: processor clusters with their live clock speeds, memory in use, storage, battery charge and draw, and every temperature sensor the phone exposes. Read from the phone's own /proc and /sys files plus dumpsys battery — nothing is changed. Live readings re-read the moving numbers every few seconds; leave it off to keep the phone idle.">i</button></h2>
+          <label class="switch" title="Re-read the moving numbers every few seconds and plot them">
+            <input type="checkbox" id="hw-live"><span class="switch-track"><span class="switch-thumb"></span></span>
+            <span class="switch-label">Live readings</span></label>
+          <button id="export-hardware" class="small hidden">Export</button>
+          <button id="export-hardware-png" class="small hidden">Export PNG</button>
+          <button id="hw-refresh" class="small">Refresh</button>
+        </div>
+        <div id="hw-empty" class="empty">
+          <div class="empty-glyph"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg></div>
+          <div>Processor, memory, storage, battery and temperatures.</div>
+          <div class="muted">Connect a phone to read them.</div>
+        </div>
+        <div id="hw-status" class="muted small-note"></div>
+        <div id="hw-skeleton" class="dev-grid hidden" aria-hidden="true">
+          <div class="charts">
+          <div class="panel sk-card"><div class="sk-bar w40"></div><div class="sk-bar w25"></div><div class="sk-bar plot"></div></div>
+          <div class="panel sk-card"><div class="sk-bar w40"></div><div class="sk-bar w25"></div><div class="sk-bar plot"></div></div>
+          </div>
+          <div class="dev-stats">
+          <div class="panel stat sk-card"><div class="sk-bar tall w55"></div><div class="sk-bar w70"></div></div>
+          <div class="panel stat sk-card"><div class="sk-bar tall w55"></div><div class="sk-bar w70"></div></div>
+          <div class="panel stat sk-card"><div class="sk-bar tall w55"></div><div class="sk-bar w70"></div></div>
+          <div class="panel stat sk-card"><div class="sk-bar tall w55"></div><div class="sk-bar w70"></div></div>
+          <div class="panel stat sk-card"><div class="sk-bar tall w55"></div><div class="sk-bar w70"></div></div>
+          <div class="panel stat sk-card"><div class="sk-bar tall w55"></div><div class="sk-bar w70"></div></div>
+          </div>
+          <div class="dev-panels">
+          <div class="panel sk-card"><div class="sk-bar w40"></div><div class="sk-bar"></div><div class="sk-bar w70"></div><div class="sk-bar"></div><div class="sk-bar w55"></div></div>
+          <div class="panel sk-card"><div class="sk-bar w40"></div><div class="sk-bar"></div><div class="sk-bar w70"></div><div class="sk-bar"></div><div class="sk-bar w55"></div></div>
+          <div class="panel sk-card"><div class="sk-bar w40"></div><div class="sk-bar"></div><div class="sk-bar w70"></div><div class="sk-bar"></div><div class="sk-bar w55"></div></div>
+          <div class="panel sk-card"><div class="sk-bar w40"></div><div class="sk-bar"></div><div class="sk-bar w70"></div><div class="sk-bar"></div><div class="sk-bar w55"></div></div>
+          </div>
+        </div>
+        <div id="hw-grid" class="dev-grid hidden"></div>
+      </section>
+
+      <!-- ============ INSTALL ORIGINS ============ -->
+      <section id="view-origins" class="view hidden">
+        <div class="viewhead">
+          <h2 class="grow">Install origins <button class="info-tip" aria-label="What this view shows" data-tip="For every app on the connected phone: when it was first installed there, which app on the phone performed the install (Google Play, the manufacturer's preinstalled store, the package installer for an APK file that was opened, adb over USB, a preload channel) or whether it shipped with the firmware, plus the installer of record, the app that handed over the file, and the install sessions the phone still remembers since its last restart. Everything is read from the phone's own package-manager records (dumpsys package). The long-term install ledger is the one thing not here: the phone only writes it into a full bugreport.">i</button></h2>
+          <select id="origins-sort" class="mode-select" aria-label="Sort">
+            <option value="first-desc">Newest install first</option>
+            <option value="first-asc">Oldest install first</option>
+            <option value="last-desc">Newest update first</option>
+            <option value="last-asc">Oldest update first</option>
+            <option value="name-asc">Name A–Z</option>
+            <option value="name-desc">Name Z–A</option>
+          </select>
+          <button id="export-origins" class="small hidden">Export</button>
+          <button id="origins-refresh" class="small">Refresh</button>
+        </div>
+        <div class="toolbar">
+          <div class="atabs">
+            <button class="atab active" data-o="all">All <span class="count" id="oc-all">0</span></button>
+            <button class="atab" data-o="user">User-installed <span class="count" id="oc-user">0</span></button>
+            <button class="atab" data-o="stores">From a store <span class="count" id="oc-stores">0</span></button>
+            <button class="atab" data-o="side">Sideloaded <span class="count" id="oc-side">0</span></button>
+            <button class="atab" data-o="preload">Preloaded <span class="count" id="oc-preload">0</span></button>
+            <button class="atab" data-o="removed">Removed <span class="count" id="oc-removed">0</span></button>
+          </div>
+          <input id="origins-search" class="search" type="search" placeholder="Filter apps or installers…">
+          <select id="origins-ns" class="mode-select" aria-label="Package namespace"><option value="">All namespaces</option></select>
+          <select id="origins-range" class="mode-select" aria-label="Installed when">
+            <option value="">Installed any time</option>
+            <option value="7">In the last 7 days</option>
+            <option value="30">In the last 30 days</option>
+            <option value="90">In the last 3 months</option>
+            <option value="365">In the last year</option>
+          </select>
+          <label class="daterange">between
+            <input id="origins-from" type="date" class="date-input" aria-label="Installed from">
+            and
+            <input id="origins-to" type="date" class="date-input" aria-label="Installed to">
+          </label>
+          <button id="origins-clear-dates" class="small hidden">Clear dates</button>
+          <span id="origins-status" class="muted"></span>
+        </div>
+        <div id="origins-empty" class="empty">
+          <div class="empty-glyph"><svg viewBox="0 0 24 24"><path d="M12 3v11"/><polyline points="8 10 12 14 16 10"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg></div>
+          <div>When each app landed on the phone, which app put it there, and through which channel.</div>
+          <div class="muted">Connect a phone to read its install records.</div>
+        </div>
+        <div id="origins-rows"></div>
+      </section>
+
+      <!-- ============ PERMISSIONS ============ -->
+      <section id="view-perms" class="view hidden">
+        <div class="viewhead">
+          <h2 class="grow">Permissions <button class="info-tip" aria-label="How this view works" data-tip="Which installed apps hold each sensitive permission, read from the phone's own records. For camera, microphone and location it also shows when the phone last recorded the app using it. Select one app or many to take a permission away or give it back: that runs Android's own pm revoke / pm grant (or cmd appops set for the special-access ones), the same mechanism the phone's Settings screens use. The previous state is saved first, so Undo puts everything back.">i</button></h2>
+          <button id="perms-revert" class="small hidden">Undo permission changes</button>
+          <button id="perms-set" class="primary menu-btn hidden" aria-haspopup="menu" aria-expanded="false"><span class="mb-label">Set permission</span><span class="mb-caret"></span></button>
+          <button id="export-perms" class="small hidden">Export</button>
+        </div>
+        <div class="toolbar">
+          <button id="perms-scan" class="primary">Scan permissions</button>
+          <input id="perms-search" class="search" type="search" placeholder="Filter apps…">
+          <label class="check-label sel-all hidden" id="perms-selall-wrap" title="Select or clear every app listed for this permission">
+            <input type="checkbox" id="perms-selall"> <span id="perms-selall-label">select all listed</span></label>
+          <button id="perms-clear-sel" class="small hidden">Clear selection</button>
+          <span id="perms-status" class="muted"></span>
+        </div>
+        <div id="perms-warning" class="banner hidden">Taking a permission away can make an app misbehave, lose features or crash, because most apps assume a permission they were granted stays granted. System apps can take the phone's own features down with them. Everything you change here is saved first and can be put back with <b>Undo permission changes</b>.</div>
+        <div id="perms-tabs" class="perm-grid hidden"></div>
+        <div id="perms-empty" class="empty">
+          <div class="empty-glyph"><svg viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M10.8 12.2 20 3"/><path d="M15 8l3 3"/></svg></div>
+          <div>Which apps can use your camera, microphone, location, messages and more.</div>
+          <div class="muted">Connect a phone and scan — read-only, straight from the phone's own permission records.</div>
+        </div>
+        <div id="perms-views" class="perm-views hidden"></div>
+        <div id="perms-rows"></div>
+      </section>
+
+      <!-- ============ PHONE SETTINGS ============ -->
+      <section id="view-settings" class="view hidden">
+        <div class="viewhead">
+          <h2 class="grow">Phone settings <button class="info-tip" aria-label="How this view works" data-tip="The privacy-hardening baseline from the health checks, with the controls to act on it. Select the settings you want, confirm, and they are applied with Android's standard settings put. The previous value is saved first, so Undo all app changes can restore everything (including 'unset'). Trade-off items always ask for a second confirmation. Every change lands in History.">i</button></h2>
+          <button id="settings-revert" class="small hidden">Undo all app changes</button>
+          <button id="settings-select-diff" class="small hidden">Select all differing</button>
+          <button id="export-settings" class="small hidden">Export</button>
+          <button id="settings-apply" class="danger hidden">Apply selected…</button>
+        </div>
+        <div class="toolbar">
+          <div class="atabs">
+            <button class="atab active" data-c="all">All <span class="count" id="sc-all">0</span></button>
+            <button class="atab" data-c="privacy">Privacy <span class="count" id="sc-privacy">0</span></button>
+            <button class="atab" data-c="security">Security <span class="count" id="sc-security">0</span></button>
+            <button class="atab" data-c="leanness">Leanness <span class="count" id="sc-leanness">0</span></button>
+          </div>
+          <button id="settings-refresh" class="small">Refresh</button>
+          <span id="settings-status" class="muted"></span>
+        </div>
+        <div id="settings-empty" class="empty">
+          <div class="empty-glyph"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="6" rx="3"/><circle cx="7" cy="8" r="1.6"/><rect x="3" y="14" width="18" height="6" rx="3"/><circle cx="17" cy="17" r="1.6"/></svg></div>
+          <div>Connect a phone to read its current settings.</div>
+          <div class="muted">They are compared against the hardened baseline — you decide what to apply.</div>
+        </div>
+        <div id="settings-rows"></div>
+      </section>
+
+      <!-- ============ SAVE STATE ============ -->
+      <section id="view-snapshots" class="view hidden">
+        <div class="viewhead">
+          <h2>Save state <button class="info-tip" aria-label="How this view works" data-tip="Saves a picture of the phone on this computer: build and patch level, every package with its version, enabled state and installer, all system settings, sensitive permission grants, accessibility / notification-listener / device-admin surfaces, and battery states. Save one, then save another later and compare the two. Meant for system updates: save before, update, save after, compare, and see exactly what the manufacturer changed, including preloads an update switched back on. Reading is read-only for the phone; the files are plain JSON in the app's data folder.">i</button></h2>
+          <span id="snap-device" class="dev-tag hidden"></span>
+          <span class="grow"></span>
+          <button id="export-snapdiff" class="small hidden">Export comparison</button>
+          <button id="snap-folder" class="small">Saved-state folder</button>
+        </div>
+        <div class="toolbar">
+          <input id="snap-label" class="search" type="text" maxlength="60" placeholder="Label, e.g. before update">
+          <button id="snap-save" class="primary">Save state now</button>
+          <span id="snap-status" class="muted"></span>
+        </div>
+        <div id="snap-empty" class="empty">
+          <div class="empty-glyph"><svg viewBox="0 0 24 24"><path d="M5 3h11l3 3v15H5z"/><rect x="8" y="14" width="8" height="7"/><path d="M8 3v5h6V3"/></svg></div>
+          <div>No saved states yet for this phone.</div>
+          <div class="muted">Save one before a system update and another after, then compare them here.</div>
+        </div>
+        <div id="snap-grid" class="dev-grid hidden">
+          <div class="panel hidden" id="snap-compare-panel">
+            <h3>Compare two saved states <button class="info-tip" aria-label="How the comparison works" data-tip="Pick an older and a newer saved state. Every difference is grouped: software build, packages added / removed / updated / re-enabled / disabled, installer changes, sensitive permission grants, accessibility and admin surfaces, battery states, and each settings table. Settings that look like counters or timestamps are folded away but still exported.">i</button></h3>
+            <div class="toolbar">
+              <select id="snap-a" class="mode-select"></select>
+              <span class="muted">→</span>
+              <select id="snap-b" class="mode-select"></select>
+              <button id="snap-run" class="small">Compare</button>
+              <span id="snap-diff-status" class="muted"></span>
+            </div>
+            <div id="snap-diff-out"></div>
+          </div>
+          <div class="panel">
+            <h3>Full report <button class="info-tip tip-left" aria-label="About the report" data-tip="Collects everything this app can read into a folder you choose: one report.json holding the device and hardware, every system property, every package on every user profile with where it came from, permission grants and the full permission catalogue, all three settings tables plus the phone's feature flags, the keyboards, accessibility services, notification listeners, autofill and VPN in use, the certificate authorities it trusts, which app holds each system role, what is running, and the health-check results — plus the raw output of every command it used and this app's own adb log. Nothing on the phone is changed. The folder describes one specific phone and its owner, so treat it as personal.">i</button></h3>
+            <div class="toolbar">
+              <button id="report-export" class="primary">Export full report…</button>
+              <label class="check-label"><input type="checkbox" id="report-personal"> include accounts, saved Wi-Fi, paired devices, app usage, notifications, the system log and network history</label>
+            </div>
+            <div class="field-hint">Around 65 read commands, so a full collection takes a few minutes. Leave the phone connected and unlocked until it finishes.</div>
+            <div id="report-status" class="muted small-note"></div>
+            <div id="report-result" class="hidden"></div>
+          </div>
+          <div class="panel">
+            <h3>Saved states <button class="info-tip tip-left" aria-label="About saved states" data-tip="Each saved state is one plain JSON file on this computer, listed newest first. Give it a title when you save it, or rename it later. View opens what the file holds; Show file reveals it in your file manager.">i</button></h3>
+            <div id="snap-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ HISTORY ============ -->
+      <section id="view-history" class="view hidden">
+        <div class="viewhead"><h2>History</h2><span id="history-device" class="dev-tag hidden"></span><span class="grow"></span><button id="export-history" class="small">Export</button><button id="history-refresh" class="small">Refresh</button></div>
+        <div class="hist-grid">
+          <div class="panel wide hidden" id="diff-panel">
+            <h3>What changed between two runs? <button class="info-tip tip-left" aria-label="How the comparison works" data-tip="Pick an older and a newer health-check run; every check whose status or findings differ between the two is shown, line by line. Lines only in the newer run are marked +, lines only in the older run are marked −. Handy around system updates: run checks before and after, then compare.">i</button></h3>
+            <div class="toolbar">
+              <select id="diff-a" class="mode-select"></select>
+              <span class="muted">→</span>
+              <select id="diff-b" class="mode-select"></select>
+              <button id="diff-run" class="small">Compare</button>
+              <button id="export-diff" class="small hidden">Export</button>
+              <span id="diff-status" class="muted"></span>
+            </div>
+            <div id="diff-out"></div>
+          </div>
+          <div class="panel wide">
+            <div class="hist-head">
+              <div class="atabs" id="hist-tabs">
+                <button class="atab active" data-hist="runs">Check runs <span class="count" id="hc-runs">0</span></button>
+                <button class="atab" data-hist="actions">Changes made <span class="count" id="hc-actions">0</span></button>
+              </div>
+              <button class="info-tip tip-left" id="hist-tip" aria-label="About this list" data-tip="">i</button>
+            </div>
+            <div id="hist-runs"></div>
+            <div id="hist-actions" class="hidden"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ CONSOLE ============ -->
+      <section id="view-console" class="view hidden">
+        <div class="viewhead">
+          <h2 class="grow">Console <button class="info-tip" aria-label="What this view shows" data-tip="Every adb command this app runs, as it runs — time, command, result, duration and output size. The same entries are appended to a daily log file on this computer; nothing leaves your machine. The quiet device-status poll (one small check every 5 seconds) is hidden here by default but still logged to the file.">i</button></h2>
+          <label class="check-label"><input type="checkbox" id="console-polls"> show device polling</label>
+          <button id="export-console" class="small">Export</button>
+          <button id="log-open-file" class="small">Open today's log</button>
+          <button id="log-open-folder" class="small">Logs folder</button>
+        </div>
+        <div id="console" class="console"></div>
+      </section>
+
+      <!-- ============ TERMINAL ============ -->
+      <section id="view-terminal" class="view hidden">
+        <div class="viewhead">
+          <h2 class="grow">Terminal <button class="info-tip" aria-label="How the terminal works" data-tip="A real adb prompt with a library of ready-made commands beside it. Every command in the library only reads from the phone — click one to run it (or, if it needs an app name, to drop it into the prompt for you to fill in). You can also type your own: read-only commands run straight away, anything that could change the phone asks for a confirmation first, and destructive commands ask twice. Use ↑ and ↓ for the commands you ran before.">i</button></h2>
+          <span id="term-tier" class="tier-chip hidden"></span>
+          <button id="term-export" class="small">Export</button>
+          <button id="term-clear" class="small">Clear</button>
+        </div>
+        <div class="term-shell">
+          <aside class="term-lib panel">
+            <input id="term-search" class="search term-search" type="search" placeholder="Search commands…" aria-label="Search commands">
+            <div id="term-cats" class="term-cats"></div>
+          <div class="term-lib-foot">
+            <a href="#" id="adb-docs-link">Full adb command reference ↗</a>
+            <span class="muted">developer.android.com</span>
+          </div>
+          </aside>
+          <div class="term-main">
+            <div id="term-out" class="console term-out"></div>
+            <form id="term-form" class="term-prompt" autocomplete="off">
+              <span class="term-ps1">phone $</span>
+              <input id="term-input" type="text" spellcheck="false" autocapitalize="off" placeholder="pm list packages -3" aria-label="Command">
+              <button id="term-run" class="primary term-go" type="submit">Run</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ ABOUT ============ -->
+      <section id="view-about" class="view hidden">
+        <div class="viewhead"><h2>About</h2></div>
+        <div class="about-badges">
+            <span class="badge-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 12.5 9.5 18 20 6.5"/></svg>Free &amp; open source (MIT)</span>
+            <span class="badge-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 12.5 9.5 18 20 6.5"/></svg>No telemetry</span>
+            <span class="badge-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 12.5 9.5 18 20 6.5"/></svg>No account, no sign-in</span>
+            <span class="badge-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 12.5 9.5 18 20 6.5"/></svg>No root, no exploits</span>
+            <span class="badge-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 12.5 9.5 18 20 6.5"/></svg>Works offline</span>
+            <span class="badge-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 12.5 9.5 18 20 6.5"/></svg>Sandboxed window, no network access</span>
+            <span class="badge-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 12.5 9.5 18 20 6.5"/></svg>Changes only with your confirmation</span>
+            <span class="badge-pill"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 12.5 9.5 18 20 6.5"/></svg>Everything stays on this computer</span>
+        </div>
+        <div class="about-grid">
+        <div class="panel about-panel">
+          <h2>What it is</h2>
+          <p>Phone Checker runs read-only security and privacy checks on your own Android phone over
+            ADB, and proposes changes you review and approve one at a time. Standard, documented
+            commands only. No root, no exploits, no telemetry, no account.</p>
+
+          <h2>Why I built it</h2>
+          <p>It started with an actual incident: a preinstalled, system-privileged app store put apps
+            on my phone that I never asked for. What stuck with me was how little an ordinary owner
+            can see about their own device. I packaged up the checks I had been running by hand, and
+            published them because other people might find them useful too.</p>
+
+          <h2>What it is not</h2>
+          <ul>
+            <li><b>Not a malware scanner.</b> The tripwire check compares against a small list of
+              publicly documented package names. A clean result only means "nothing on that list".</li>
+            <li><b>"All clear" is not proof the phone is safe.</b> It means these checks found nothing
+              over ADB, which sees only what Android exposes. A check that cannot read what it needs is
+              reported as unreadable, never as a pass.</li>
+            <li><b>Not a forensic or certification tool.</b> It helps you look at your own phone and
+              make reversible changes you agreed to.</li>
+          </ul>
+
+          <h2>Use with care</h2>
+          <p>These are real commands on a real phone. Every change made here can be undone from
+            History, but a package that is harmless to disable on one model may matter on another, and
+            the Terminal runs exactly what you type. Read what an item does before approving it, and
+            use <b>Search web</b> if you are unsure. What you approve is your decision, and the result
+            is your responsibility.</p>
+
+          <h2>Safety model</h2>
+          <ul>
+            <li>The app never changes anything on its own. Every write waits for a confirmation dialog
+              that lists each affected item.</li>
+            <li>The previous state is saved first, and every applied change is recorded in History so
+              you can undo it.</li>
+            <li>Caution items, settings with trade-offs and system apps ask a second time, spelling out
+              what breaks. Keep-tier packages can never be selected.</li>
+            <li>In the Terminal only commands recognised as read-only run straight away. Anything else
+              asks, destructive commands ask twice, and an unknown command counts as a write.</li>
+            <li>The window drawing this page has no access to your computer: context isolation is on,
+              Node integration is off, and a <code>default-src 'self'</code> policy stops the page
+              loading anything from the network. It can only call the named operations listed in
+              <b>Commands it runs</b>, each handled in the main process.</li>
+          </ul>
+
+          <h2>Legal, trademarks &amp; affiliation</h2>
+          <ul>
+            <li><b>Not affiliated.</b> An independent open-source project by one person, not
+              affiliated with, endorsed by, or sponsored by Google, Samsung, or any other device
+              manufacturer, OS vendor or app-store operator. Nobody named anywhere in this app has
+              reviewed, approved or supported it, and no manufacturer code, assets or branding is
+              included in it.</li>
+            <li><b>Trademarks.</b> Android and Google Play are trademarks of Google LLC. Samsung and
+              Galaxy are trademarks of Samsung Electronics Co., Ltd. Every other product, brand and
+              company name shown in this app is the trademark of its respective owner. They appear
+              only to identify what is on your device, or which device a check applies to, and never
+              to suggest a connection or an endorsement.</li>
+            <li><b>No accusation.</b> Where a package description mentions how something arrived, for
+              example through a preload or partner campaign, that comes from public research or from
+              your own device's records. It is not a claim that any app or vendor is malicious.</li>
+            <li><b>Your own devices.</b> Use it only on devices you own or are authorized to
+              manage.</li>
+            <li><b>Use at your own risk.</b> Free software under the MIT License,
+              provided as-is, without warranty of any kind. What you approve is your decision and the
+              result is your responsibility. See <a href="#" id="credits-link">credits and attribution</a>.</li>
+          </ul>
+          <div class="about-foot muted">Phone Checker for Android · v0.1.0</div>
+        </div>
+        <div class="about-side">
+          <div class="panel">
+            <h3>Project</h3>
+            <ul class="tech-list">
+              <li><b>Free and open source.</b> Free to use, and the whole source is public under the MIT License, so anyone can read exactly what it runs on their phone.</li>
+              <li><a href="#" id="repo-link">github.com/dimitriostzr/android-phone-checker</a><br><span class="muted">source code, releases and the full README</span></li>
+              <li><b>Fork it.</b> The licence lets anyone copy the code, change it, and use it for any purpose, including their own release, as long as the copyright and licence notice stay with it. The project is unmaintained and provided as is. <a href="#" id="repo-fork-link">Fork it on GitHub</a>.</li>
+              <li><a href="#" id="credits-link-2">Credits &amp; attribution</a></li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Commands it runs</h3>
+            <div class="cmd-group">Reads, run without asking</div>
+            <ul class="cmd-list">
+              <li>getprop · pm list packages [-3 -d -u -i]</li>
+              <li>settings get · settings list</li>
+              <li>dumpsys package · appops · battery · device_policy · deviceidle</li>
+              <li>pm path + adb pull (copies an APK here to checksum it)</li>
+              <li>cat /proc/… · /sys/…/cpufreq · /sys/class/thermal · df · uname · wm</li>
+            </ul>
+            <div class="cmd-group">Changes, only after you confirm</div>
+            <ul class="cmd-list">
+              <li>pm disable-user --user 0 · pm enable --user 0</li>
+              <li>pm revoke --user 0 · pm grant --user 0</li>
+              <li>settings put · settings delete</li>
+              <li>cmd appops set (battery states, special access)</li>
+              <li>dumpsys deviceidle whitelist ±&lt;package&gt;</li>
+            </ul>
+            <div class="cmd-group">Terminal</div>
+            <ul class="cmd-list">
+              <li>library commands are read-only and run on a click</li>
+              <li>what you type: reads run, anything else asks, destructive asks twice</li>
+            </ul>
+          </div>
+        </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ============ STARTUP DISCLAIMER (every launch) ============ -->
+  <div id="modal-disclaimer" class="modal-backdrop">
+    <div class="modal modal-tall" role="dialog" aria-modal="true" aria-labelledby="disclaimer-h">
+      <h2 id="disclaimer-h">⚠️ Read this before you start</h2>
+      <div class="modal-body">
+        <p>Phone Checker inspects your phone over ADB and, only when you explicitly ask it to, makes
+          <b>deep but standard changes</b>: disabling preloaded apps and adjusting system settings.</p>
+
+        <div class="callout callout-risk">
+          <h3>Use at your own risk</h3>
+          <p>Phone Checker is a free, open-source tool provided <b>as-is, without warranty of any
+            kind</b>. Whether to use it, and what to approve in it, is your decision, and what
+            happens on your phone as a result is your responsibility.</p>
+        </div>
+
+        <div class="callout callout-backup">
+          <h3>Back up your phone first</h3>
+          <p>Before you approve any change, <b>take a full backup if you possibly can</b>. Nothing
+            here is meant to lose data, but a backup is what turns a bad surprise into an
+            inconvenience.</p>
+          <p>Use your phone maker's own backup tool over USB where there is one (Smart Switch on
+            Samsung, for example), or your cloud backup, and check your photos and messages are
+            included. A backup you have tested restoring is worth more than one you have not.</p>
+        </div>
+
+        <ul>
+          <li>This is <b>not rooting, jailbreaking or bootloader unlocking</b> — nothing of that kind is
+            attempted or possible here. Every change uses Android's documented user-level commands and is
+            reversible from History.</li>
+          <li>Deep edits still deserve care: disabling the wrong package can break features. Read each
+            item and research anything you are unsure about before approving it.</li>
+          <li>Items marked <b>caution</b> or <b>trade-off</b> always ask for a <b>second, separate
+            confirmation</b> that spells out exactly what breaks.</li>
+          <li>The <b>Terminal</b> lets you run adb commands you type yourself. Read-only commands run
+            straight away; anything that could change the phone asks for confirmation first and
+            destructive ones ask twice — but a command you type is <b>not</b> undoable from History.</li>
+          <li>Only use Phone Checker on a phone you <b>own or are authorized to manage</b>.</li>
+        </ul>
+        <p class="muted">Phone Checker is an independent open-source tool — not affiliated with, endorsed by,
+          or sponsored by Google, Samsung, or any other device manufacturer, OS vendor or app-store operator.
+          Android and Google Play are trademarks of Google LLC; Samsung and Galaxy are trademarks of Samsung
+          Electronics Co., Ltd.; every other brand and product name here is the trademark of its respective
+          owner, and appears only to identify what is on your device. <b>About</b> has the full statement.</p>
+        <div class="env-check">
+          <div id="env-adb" class="env-row wait">Checking for Android platform-tools…</div>
+          <div id="env-phone" class="env-row wait">Checking for a connected phone…</div>
+        </div>
+      </div>
+      <label class="check-label big"><input type="checkbox" id="disclaimer-check">
+        <span>I have read the above, I understand a full backup is recommended before I change
+        anything, and I accept that I use Phone Checker <b>at my own risk</b>.</span></label>
+      <div class="modal-actions">
+        <button id="disclaimer-quit" class="small">Quit</button>
+        <button id="disclaimer-accept" class="primary" disabled>Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ QUIT CHECKLIST ============ -->
+  <div id="modal-quit" class="modal-backdrop hidden">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="quit-h">
+      <h2 id="quit-h">Before you close</h2>
+      <p>A quick safety checklist — for <b>every phone you worked on</b> in this session:</p>
+      <ul>
+        <li><b>USB debugging</b> — turn it off now that you are done (leave it on only if you
+          know you still need it). The button below does it for the connected phone; on any
+          other phone, or if the button cannot, it is Settings → Developer options → USB
+          debugging.
+          <div id="usb-off-row" class="usb-row hidden">
+            <button id="usb-off" class="small">Turn USB debugging off on <span id="usb-off-model">this phone</span></button>
+            <span id="usb-off-status" class="muted"></span>
+          </div>
+        </li>
+        <li><b>Protections you paused</b> — re-enable anything you switched off to use adb tools,
+          for example your device brand's app-security guard (called Auto Blocker on some phones).</li>
+        <li><b>Changes you approved</b> — package disables stay reversible from History any time;
+          nothing else needs undoing.</li>
+        <li><b>Developer options</b> — turning USB debugging off leaves Developer options itself
+          switched on. The toggle at the top of that screen turns the whole thing off.</li>
+      </ul>
+      <label class="check-label big"><input type="checkbox" id="quit-check">
+        I have checked this for the phone(s) I worked on.</label>
+      <div class="modal-actions">
+        <button id="quit-cancel" class="small">Go back</button>
+        <button id="quit-confirm" class="danger" disabled>Quit Phone Checker</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ DISCONNECT ============ -->
+  <div id="modal-disconnect" class="modal-backdrop hidden">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="disc-h">
+      <div id="disc-main">
+        <h2 id="disc-h">Disconnect <span id="disc-model">this phone</span></h2>
+        <p>Before you unplug, the same checklist that runs when you quit:</p>
+        <ul>
+          <li><b>USB debugging</b> — turn it off now that you are done. The button below does it
+            for this phone; by hand it is Settings → Developer options → USB debugging.</li>
+          <li><b>Protections you paused</b> — re-enable anything you switched off to use adb tools,
+            for example your device brand's app-security guard (called Auto Blocker on some phones).</li>
+          <li><b>Developer options</b> — turning USB debugging off leaves Developer options itself
+            switched on. The toggle at the top of that screen turns the whole thing off.</li>
+        </ul>
+        <div class="usb-row">
+          <button id="disc-usb-off" class="small">Turn USB debugging off on <span id="disc-usb-model">this phone</span></button>
+          <span id="disc-usb-status" class="muted"></span>
+        </div>
+        <div class="modal-actions">
+          <button id="disc-close" class="small">Close</button>
+        </div>
+      </div>
+      <div id="disc-done" class="disc-done hidden">
+        <div class="disc-tick">✓</div>
+        <h2>Disconnected</h2>
+        <p id="disc-done-text"></p>
+        <div class="modal-actions">
+          <button id="disc-done-close" class="small">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ VERIFY APP ============ -->
+  <div id="modal-verify" class="modal-backdrop hidden">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="verify-h">
+      <h2 id="verify-h">Verify app package</h2>
+      <p class="muted">The app's APK is copied from the phone to this computer (nothing on the phone
+        changes), its SHA-256 checksum is computed locally, and the temporary copy is deleted.
+        Searching the checksum online is a separate step that opens your own browser — nothing is
+        sent anywhere by this app.</p>
+      <div id="verify-body" class="kv"></div>
+      <div class="modal-actions">
+        <button id="verify-search" class="small hidden">Search checksum online</button>
+        <button id="verify-copy" class="small hidden">Copy SHA-256</button>
+        <button id="verify-close" class="primary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ APPEARANCE ============ -->
+  <div id="modal-appearance" class="modal-backdrop hidden">
+    <div class="modal modal-sm" role="dialog" aria-modal="true" aria-labelledby="appearance-h">
+      <h2 id="appearance-h">Appearance</h2>
+      <div class="field">
+        <div class="field-label">Theme</div>
+        <div class="seg" id="appearance-theme" role="group" aria-label="Theme">
+          <button class="seg-btn" data-theme="light">Light</button>
+          <button class="seg-btn" data-theme="system">System</button>
+          <button class="seg-btn" data-theme="dark">Dark</button>
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label">Accent colour</div>
+        <div class="accent-picker" role="group" aria-label="Accent colour">
+          <button class="accent-btn" data-accent="blue" title="Blue" aria-label="Blue accent"></button>
+          <button class="accent-btn" data-accent="teal" title="Teal" aria-label="Teal accent"></button>
+          <button class="accent-btn" data-accent="green" title="Green" aria-label="Green accent"></button>
+          <button class="accent-btn" data-accent="amber" title="Amber" aria-label="Amber accent"></button>
+          <button class="accent-btn" data-accent="rose" title="Rose" aria-label="Rose accent"></button>
+          <button class="accent-btn" data-accent="slate" title="Slate" aria-label="Slate accent"></button>
+          <label class="accent-btn accent-custom" title="Pick your own colour"><input type="color" id="accent-custom" aria-label="Custom accent colour"></label>
+        </div>
+        <div class="field-hint">Used for buttons, links and highlights. The choice is remembered.</div>
+      </div>
+      <div class="modal-actions">
+        <button id="appearance-close" class="primary">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SAVED STATE (contents of one file) ============ -->
+  <div id="modal-snap" class="modal-backdrop hidden">
+    <div class="modal wide" role="dialog" aria-modal="true" aria-labelledby="snap-view-title">
+      <h2 id="snap-view-title">Saved state</h2>
+      <div id="snap-view-meta" class="kv"></div>
+      <div class="seg" id="snap-view-tabs" role="group" aria-label="View">
+        <button class="seg-btn active" data-snaptab="summary">Summary</button>
+        <button class="seg-btn" data-snaptab="raw">Raw JSON</button>
+      </div>
+      <div id="snap-view-body"></div>
+      <div class="modal-actions">
+        <button id="snap-view-reveal" class="small">Show file</button>
+        <button id="snap-view-copy" class="small">Copy JSON</button>
+        <button id="snap-view-close" class="primary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ INSTALL ORIGIN (one app) ============ -->
+  <div id="modal-origin" class="modal-backdrop hidden">
+    <div class="modal wide" role="dialog" aria-modal="true" aria-labelledby="origin-title">
+      <h2 id="origin-title">Install origin</h2>
+      <div id="origin-body"></div>
+      <div class="modal-actions">
+        <button id="origin-search" class="small">Search web</button>
+        <button id="origin-copy" class="small">Copy details</button>
+        <button id="origin-close" class="primary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CREDITS ============ -->
+  <div id="modal-credits" class="modal-backdrop hidden">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="credits-h">
+      <h2 id="credits-h">Credits &amp; attribution</h2>
+      <div id="credits-body"></div>
+      <div class="modal-actions">
+        <button id="credits-close" class="primary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

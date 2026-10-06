@@ -1,0 +1,32 @@
+{
+  "name": "phone-checker",
+  "productName": "Phone Checker",
+  "version": "0.1.0",
+  "description": "Security & privacy health checks for your own Android phone over ADB — read-only inspection, consent-first changes. Vendor-neutral; no root, no telemetry.",
+  "author": "Dimitrios T",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/dimitriostzr/android-phone-checker.git" },
+  "homepage": "https://github.com/dimitriostzr/android-phone-checker",
+  "main": "src/main.js",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node scripts/start.js",
+    "test": "node --test",
+    "icon": "electron scripts/render-icon.js",
+    "dist": "electron-builder -mwl",
+    "dist:mac": "electron-builder --mac",
+    "dist:win": "electron-builder --win",
+    "dist:linux": "electron-builder --linux"
+  },
+  "devDependencies": {
+    "electron": "^44.5.1",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "io.github.dimitriostzr.phonechecker",
+    "files": ["src/**/*", "scripts/**/*", "package.json", "build/icon.png", "CREDITS.md", "LICENSE"],
+    "mac": { "target": ["dmg", "zip"], "category": "public.app-category.utilities" },
+    "win": { "target": ["nsis", "portable"] },
+    "linux": { "target": ["AppImage", "deb"], "category": "Utility" }
+  }
+}

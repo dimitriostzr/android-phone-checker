@@ -1,0 +1,13 @@
+node_modules/
+dist/
+*.log
+.DS_Store
+
+# Raw device dumps and pulled binaries must never reach the public repo —
+# only redacted excerpts inside Markdown reports belong here.
+*.zip
+*.apk
+*.ab
+logcat*
+*bugreport*
+runs/
